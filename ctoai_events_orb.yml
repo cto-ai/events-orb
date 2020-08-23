@@ -1,0 +1,45 @@
+version: 2.1
+description: "Send workflow events to CTO.ai to enable Workflow Metrics."
+
+commands:
+  event:
+    description: "Send a workflow metric event to the CTO.ai events API."
+    parameters:
+      token:
+        type: string
+      team_id:
+        type: string
+      stage:
+        type: string
+        default: ""
+      status:
+        type: string
+        default: ""
+      change_id:
+        type: string
+        default: ""
+      pipeline_id:
+        type: string
+        default: ""
+      stage_ref:
+        type: string
+        default: ""
+      custom:
+        type: string
+        default: null
+    steps:
+      - run:
+          name: Record Workflow Metrics event (CTO.ai)
+          command: |
+              curl --location --request POST "https://api.cto.sh/api/v1/events" \
+                --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
+                --header 'Content-Type: application/json'\
+                --data "{
+                    \"team_id\":\"<<parameters.team_id>>\",
+                    \"stage\":\"<<parameters.stage>>\",
+                    \"status\":\"<<parameters.status>>\",
+                    \"change_id\":\"<<parameters.change_id>>\",
+                    \"pipeline_id\":\"<<parameters.pipeline_id>>\",
+                    \"stage_ref\":\"<<parameters.stage_ref>>\",
+                    \"custom\":<<parameters.custom>>
+                  }"
