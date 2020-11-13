@@ -9,37 +9,48 @@ commands:
         type: string
       team_id:
         type: string
-      stage:
+      repo:
         type: string
         default: ""
-      status:
+      branch:
         type: string
         default: ""
-      change_id:
+      commit:
         type: string
         default: ""
-      pipeline_id:
+      image:
         type: string
         default: ""
-      stage_ref:
+      environment:
         type: string
         default: ""
-      custom:
+      event_name:
         type: string
-        default: null
+        default: ""
+      event_action:
+        type: string
+        default: ""
+      user:
+        type: string
+        default: ""
+      origin:
+        type: string
+        default: ""
     steps:
       - run:
           name: Record Workflow Metrics event (CTO.ai)
           command: |
-              curl --location --request POST "https://api.cto.sh/api/v1/events" \
+              curl --location --request POST "https://events.cto.ai" \
                 --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
                 --header 'Content-Type: application/json'\
                 --data "{
-                    \"team_id\":\"<<parameters.team_id>>\",
-                    \"stage\":\"<<parameters.stage>>\",
-                    \"status\":\"<<parameters.status>>\",
-                    \"change_id\":\"<<parameters.change_id>>\",
-                    \"pipeline_id\":\"<<parameters.pipeline_id>>\",
-                    \"stage_ref\":\"<<parameters.stage_ref>>\",
-                    \"custom\":<<parameters.custom>>
-                  }"
+                  \"repo\":\"<<parameters.repo>>\",
+                  \"branch\":\"<<parameters.branch>>\",
+                  \"commit\":\"<<parameters.commit>>\",
+                  \"image\":\"<<parameters.image>>\",
+                  \"environment\":\"<<parameters.environment>>\",
+                  \"event_name\":\"<<parameters.event_name>>\",
+                  \"event_action\":\"<<parameters.event_action>>\",
+                  \"team_id\":\"<<parameters.team_id>>\",
+                  \"meta\":{ \"user\":\"<<parameters.user>>\", \"origin\":\"<<parameters.origin>>\" }
+                }"
