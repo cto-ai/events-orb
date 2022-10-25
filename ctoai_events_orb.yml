@@ -11,13 +11,13 @@ commands:
         type: string
       repo:
         type: string
-        default: ""
+        default: "${CIRCLE_PROJECT_REPONAME}"
       branch:
         type: string
-        default: ""
+        default: "${CIRCLE_BRANCH}"
       commit:
         type: string
-        default: ""
+        default: "${CIRCLE_SHA1}"
       image:
         type: string
         default: ""
@@ -32,7 +32,7 @@ commands:
         default: ""
       user:
         type: string
-        default: ""
+        default: "${CIRCLE_USERNAME}"
       origin:
         type: string
         default: ""
