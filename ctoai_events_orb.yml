@@ -35,7 +35,7 @@ commands:
         default: "${CIRCLE_USERNAME}"
       origin:
         type: string
-        default: ""
+        default: "circleci-orb"
     steps:
       - run:
           name: Record Workflow Metrics event (CTO.ai)
