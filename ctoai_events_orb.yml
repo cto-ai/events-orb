@@ -33,36 +33,22 @@ commands:
       user:
         type: string
         default: "${CIRCLE_USERNAME}"
-      origin:
-        type: string
-        default: "circleci-orb"
     steps:
-      - run:
-          name: Get VCS
-          command: |
-            if [[ "$CIRCLE_REPOSITORY_URL" == *"github.com"* ]]; then
-              VCS="github"
-            elif [[ "$CIRCLE_REPOSITORY_URL" == *"bitbucket.org"* ]]; then
-              VCS="bitbucket"
-            else
-              VCS="gitlab"
-            fi
-            echo "VCS: $VCS"
       - run:
           name: Record Workflow Metrics event (CTO.ai)
           command: |
-            curl --location --request POST "https://events.stg.cto.ai" \
-              --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
-              --header 'Content-Type: application/json'\
-              --header "x-ops-mechanism: circle-ci-${VCS}"\
-              --data "{
-                \"repo\":\"<<parameters.repo>>\",
-                \"branch\":\"<<parameters.branch>>\",
-                \"commit\":\"<<parameters.commit>>\",
-                \"image\":\"<<parameters.image>>\",
-                \"environment\":\"<<parameters.environment>>\",
-                \"event_name\":\"<<parameters.event_name>>\",
-                \"event_action\":\"<<parameters.event_action>>\",
-                \"team_id\":\"<<parameters.team_id>>\",
-                \"meta\":{ \"user\":\"<<parameters.user>>\", \"origin\":\"<<parameters.origin>>\" }
-              }"
+              curl --location --request POST "https://events.cto.ai" \
+                --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
+                --header 'Content-Type: application/json'\
+                --header 'x-ops-mechanism: circleci-orb'\
+                --data "{
+                  \"repo\":\"<<parameters.repo>>\",
+                  \"branch\":\"<<parameters.branch>>\",
+                  \"commit\":\"<<parameters.commit>>\",
+                  \"image\":\"<<parameters.image>>\",
+                  \"environment\":\"<<parameters.environment>>\",
+                  \"event_name\":\"<<parameters.event_name>>\",
+                  \"event_action\":\"<<parameters.event_action>>\",
+                  \"team_id\":\"<<parameters.team_id>>\",
+                  \"meta\":{ \"user\":\"<<parameters.user>>\" }                 
+                }"
