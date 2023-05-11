@@ -33,12 +33,6 @@ commands:
       user:
         type: string
         default: "${CIRCLE_USERNAME}"
-      origin:
-        type: string
-        default: "circleci-orb"
-      vcs_type:
-        type: string
-        default: "vcs"
     steps:
       - run:
           name: Record Workflow Metrics event (CTO.ai)
@@ -46,7 +40,7 @@ commands:
               curl --location --request POST "https://events.cto.ai" \
                 --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
                 --header 'Content-Type: application/json'\
-                --header 'x-ops-mechanism: circle-ci'\
+                --header 'x-ops-mechanism: circleci-orb'\
                 --data "{
                   \"repo\":\"<<parameters.repo>>\",
                   \"branch\":\"<<parameters.branch>>\",
@@ -56,6 +50,5 @@ commands:
                   \"event_name\":\"<<parameters.event_name>>\",
                   \"event_action\":\"<<parameters.event_action>>\",
                   \"team_id\":\"<<parameters.team_id>>\",
-                  \"meta\":{ \"user\":\"<<parameters.user>>\", \"origin\":\"<<parameters.origin>>\" },
-                  \"vcs_type\":\"<<parameters.vcs_type>>\"                    
+                  \"meta\":{ \"user\":\"<<parameters.user>>\" }                 
                 }"
