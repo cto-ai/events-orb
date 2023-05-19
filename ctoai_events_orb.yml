@@ -40,7 +40,7 @@ commands:
               curl --location --request POST "https://events.cto.ai" \
                 --header "`echo 'Authorization: Bearer' <<parameters.token>>`"\
                 --header 'Content-Type: application/json'\
-                --header 'x-ops-mechanism: circleci-orb'\            
+                --header 'x-ops-mechanism: circleci-orb'\
                 --data "{
                   \"repo\":\"<<parameters.repo>>\",
                   \"branch\":\"<<parameters.branch>>\",
