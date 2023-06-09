@@ -18,7 +18,7 @@ Name of event being sent, i.e. "deployment".
 
 ### `event_action`
 
-Action associated with event, i.e. "failed", "pending", or "succeeded".
+Action associated with event i.e. "failure", "success"
 
 ## Optional Inputs
 
@@ -78,7 +78,7 @@ jobs:
             image: app78df3bl2
             environment: staging
             event_name: deployment
-            event_action: succeeded
+            event_action: success
 
 workflows:
    events_example_workflow:
