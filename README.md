@@ -1,44 +1,40 @@
 # events-orb
 
-The source code for the CircleCI Orb that assists CircleCI users to send workflow events.
+The source code for the CircleCI Orb that assists CircleCI users to send workflow events to CTO.ai.
 
 ## Required Inputs
 
 ### `token`
 
-CTO.ai API token; follow [these docs to generate](https://cto.ai/docs/integrate-any-tool).
+The `token` input should be your CTO.ai API token. You can follow [our docs to generate](https://cto.ai/docs/integrate-any-tool) your API token.
 
 ### `team_id`
 
-CTO.ai team ID sending the data; follow [these docs to access](https://cto.ai/docs/integrate-any-tool).
+Instructions for finding the CTO.ai Team ID which owns the received data can also be found [in our docs](https://cto.ai/docs/integrate-any-tool).
 
 ### `event_name`
 
-Name of event being sent, i.e. "deployment".
+The name which represents the event being sent, e.g. "deployment".
 
 ### `event_action`
 
-Action associated with event, i.e. "failed", "pending", or "succeeded".
+The state resulting from the event taking action, e.g. "failure" or "success".
 
 ## Optional Inputs
 
-The following orb fields are optional; however, more complex builds may
-require them.
+The following variables are optional inputs to your Orb, which may be required by more complex builds.
 
 ### `branch`
 
-The `branch` field refers to the git branch name where the change occurs. When
-absent, the orb will use the built-in environment variable `CIRCLE_BRANCH` exposed by CircleCI.
+The `branch` field refers to the git branch name where the change occurs. When absent, the pipe will use the built-in environment variable `CIRCLE_BRANCH`, exposed by CircleCI.
 
 ### `commit`
 
-The `commit` field refers to the commit id where the change occurs. When absent,
-the orb will use the built-in environment variable `CIRCLE_SHA1` exposed by CircleCI.
+The `commit` field refers to the commit hash representing the current change. When absent, the pipe will use the built-in environment variable `CIRCLE_SHA1`, exposed by CircleCI.
 
 ### `repo`
 
-The `repo` field refers to the repository name where the change occurs. When
-absent, the orb will use the built-in environment variable `CIRCLE_PROJECT_REPONAME` exposed by CircleCI.
+The `repo` field refers to the name of the repository where the change is occurring. When absent, the pipe will use the built-in environment variable `CIRCLE_PROJECT_REPONAME`, exposed by CircleCI.
 
 ### `environment`
 
@@ -53,7 +49,7 @@ The `image` field refers to the OCI image name or ID associated with this event.
 Create 2 new environment variables for your `token` and `team_id` to be passed into the job.
 
 1. Follow [guide](https://circleci.com/docs/set-environment-variable/#set-an-environment-variable-in-a-project) to set an environment variable in your project
-2. Create `CTOAI_TEAM_ID` secret using your CTO.ai-issued Team Id.
+2. Create `CTOAI_TEAM_ID` secret using your CTO.ai-issued Team ID.
 3. Create `CTOAI_EVENTS_API_TOKEN` secret using your CTO.ai-issued API Token.
 
 ## Examples
@@ -73,12 +69,12 @@ jobs:
          - image: cimg/base:stable
       steps:
         - cto-ai/event:
-            token: ${CTOAI_TEAM_ID}
-            team_id: ${CTOAI_EVENTS_API_TOKEN}
+            token: ${CTOAI_EVENTS_API_TOKEN}
+            team_id: ${CTOAI_TEAM_ID}
             image: app78df3bl2
             environment: staging
             event_name: deployment
-            event_action: succeeded
+            event_action: success
 
 workflows:
    events_example_workflow:
